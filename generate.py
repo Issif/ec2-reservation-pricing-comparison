@@ -49,7 +49,7 @@ def render_table(table):
     html = """
     <div id="os-{os}">
     <h1>EC2 Payment Plan Comparisons, OS: {os}</h1>
-
+    <div>(<a href="#os-Linux">Linux</a> / <a href="#os-RHEL">RHEL</a> / <a href="#os-SUSE">SUSE</a> / <a href="#os-Windows">Windows</a>)</div>
     <table class="table table-striped table-hover" id="os-{os}">
     <tr>
     <td></td>
@@ -110,16 +110,6 @@ def footer():
         disclaimer=data['meta']['disclaimer']
     )
     return foot + """
-    <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-34283093-1', 'auto');
-    ga('send', 'pageview');
-
-    </script>
     """
 
 def render_graph(server, graph_data):
@@ -197,6 +187,18 @@ table_html = """
 
 for os in data['dimensions']['operating_systems']:
     if os == 'Linux':
+        table_html += render_table(build_table(data, os))
+
+for os in data['dimensions']['operating_systems']:
+    if os == 'RHEL':
+        table_html += render_table(build_table(data, os))
+
+for os in data['dimensions']['operating_systems']:
+    if os == 'SUSE':
+        table_html += render_table(build_table(data, os))
+
+for os in data['dimensions']['operating_systems']:
+    if os == 'Windows':
         table_html += render_table(build_table(data, os))
 
 table_html += footer()
